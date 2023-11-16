@@ -1,12 +1,18 @@
 <header>
   <mat-toolbar color="primary">
+    <button mat-icon-button aria-label="Logo" aria-hidden="false" routerLink="/">
+      <mat-icon fontIcon="menu_book"></mat-icon>
+    </button>
     <span>Words Make World</span>
     <span class="example-spacer"></span>
-    <button mat-icon-button aria-label="Account Info Button" aria-hidden="false">
-      <mat-icon fontIcon="account_circle"></mat-icon>
-    </button>
-    <button mat-button aria-label="Login button" aria-hidden="false" routerLink="/login">Login</button>
-    <button mat-button aria-label="Login button" aria-hidden="false">Register</button>
+    @if ((me$ | async)?.data === undefined) {
+      <button mat-button aria-label="Login button" aria-hidden="false" routerLink="/login">Login</button>
+      <button mat-button aria-label="Login button" aria-hidden="false" routerLink="/register">Register</button>
+    } @else {
+      <button mat-icon-button aria-label="Account Info Button" aria-hidden="false">
+       <mat-icon fontIcon="account_circle"></mat-icon>
+      </button>
+    }
   </mat-toolbar>
 </header>
 <main>

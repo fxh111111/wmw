@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {User} from "./user";
 import {HttpClient} from "@angular/common/http";
 import {Result} from "./result";
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class UserService {
   };
 
   login(username: string, password: string) {
-    this.http.post<Result>('/api/user/login', {'username': username, 'password': password}).subscribe(res => {
+    this.http.post<Result<null>>('/api/user/login', {'username': username, 'password': password}).subscribe(res => {
       if (res.code !== 0) {
         alert(res.message);
       }
@@ -19,23 +20,14 @@ export class UserService {
   };
 
   register(user: User) {
-    this.http.post<Result>('/api/user/register', user).subscribe(res => {
+    this.http.post<Result<null>>('/api/user/register', user).subscribe(res => {
       if (res.code !== 0) {
         alert(res.message);
       }
     });
   };
 
-  info(): User | undefined {
-    let user:User|undefined;
-    this.http.get<Result>('/api/user/info').subscribe(res => {
-      if (res.code !== 0) {
-        alert(res.message);
-        user = undefined;
-      } else {
-        user = <User>res.data
-      }
-    });
-    return user;
+  info(): Observable<Result<User>> {
+    return this.http.get<Result<User>>('/api/user/info');
   };
 }
